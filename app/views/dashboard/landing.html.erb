@@ -1,0 +1,225 @@
+<!-- Hero Section -->
+<div class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+  <!-- Navigation -->
+  <nav class="relative max-w-7xl mx-auto flex items-center justify-between pt-6 px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center space-x-2">
+      <i class="fas fa-chart-line text-2xl text-indigo-600"></i>
+      <span class="text-xl font-bold text-gray-900">Stock Trainer</span>
+    </div>
+    <div class="space-x-4">
+      <%= link_to "Sign In", login_path, class: "text-gray-600 hover:text-gray-900 font-medium" %>
+      <%= link_to "Get Started", signup_path, class: "bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 font-medium transition duration-150" %>
+    </div>
+  </nav>
+
+  <!-- Hero Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
+    <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+      <div class="sm:text-center lg:text-left lg:col-span-6">
+        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+          <span class="block">Master Stock Trading</span>
+          <span class="block text-indigo-600">Risk-Free</span>
+        </h1>
+        <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+          Learn to trade stocks through gamified simulation. Practice with virtual money, earn XP, unlock achievements, and master market skills before risking real capital.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="mt-8 sm:mt-12 sm:flex sm:justify-center lg:justify-start">
+          <div class="rounded-md shadow">
+            <%= link_to signup_path, class: "w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10 transition duration-150" do %>
+              Start Free Account
+              <i class="fas fa-arrow-right ml-2"></i>
+            <% end %>
+          </div>
+          <div class="mt-3 sm:mt-0 sm:ml-3">
+            <%= link_to login_path, class: "w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10 transition duration-150" do %>
+              Try Demo Account
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Demo Account Info -->
+        <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-md">
+          <div class="flex">
+            <i class="fas fa-info-circle text-blue-400 mt-0.5"></i>
+            <div class="ml-3">
+              <h3 class="text-sm font-medium text-blue-800">Demo Account</h3>
+              <div class="mt-1 text-sm text-blue-700">
+                <p>Email: demo@stocktrainer.com</p>
+                <p>Password: password123</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Image/Stats -->
+      <div class="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
+        <div class="relative mx-auto w-full rounded-lg shadow-lg lg:max-w-md">
+          <!-- Mock Dashboard Preview -->
+          <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+            <div class="bg-indigo-600 px-6 py-4">
+              <h3 class="text-lg font-semibold text-white">Your Trading Dashboard</h3>
+            </div>
+            <div class="p-6 space-y-4">
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">Portfolio Value</span>
+                <span class="text-lg font-bold text-green-600">$12,450.00</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">Total Return</span>
+                <span class="text-lg font-bold text-green-600">+24.5%</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">Experience Points</span>
+                <span class="text-lg font-bold text-indigo-600">2,850 XP</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">Current Level</span>
+                <span class="text-lg font-bold text-purple-600">Level 5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Features Section -->
+<div class="py-16 bg-white overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 space-y-8 sm:px-6 lg:px-8">
+    <div class="text-center">
+      <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+        Everything You Need to Learn Trading
+      </h2>
+      <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
+        Our gamified platform makes learning stock trading engaging, educational, and completely risk-free.
+      </p>
+    </div>
+
+    <div class="mt-20">
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- Feature 1 -->
+        <div class="pt-6">
+          <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+            <div class="-mt-6">
+              <div>
+                <span class="inline-flex items-center justify-center p-3 bg-indigo-500 rounded-md shadow-lg">
+                  <i class="fas fa-graduation-cap text-white text-xl"></i>
+                </span>
+              </div>
+              <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Interactive Lessons</h3>
+              <p class="mt-5 text-base text-gray-500">
+                Learn trading fundamentals through hands-on lessons covering market analysis, risk management, and trading psychology.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="pt-6">
+          <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+            <div class="-mt-6">
+              <div>
+                <span class="inline-flex items-center justify-center p-3 bg-green-500 rounded-md shadow-lg">
+                  <i class="fas fa-chart-line text-white text-xl"></i>
+                </span>
+              </div>
+              <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Real Market Data</h3>
+              <p class="mt-5 text-base text-gray-500">
+                Practice with real stock prices and market conditions using our advanced trading simulator.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="pt-6">
+          <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+            <div class="-mt-6">
+              <div>
+                <span class="inline-flex items-center justify-center p-3 bg-purple-500 rounded-md shadow-lg">
+                  <i class="fas fa-trophy text-white text-xl"></i>
+                </span>
+              </div>
+              <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Gamified Learning</h3>
+              <p class="mt-5 text-base text-gray-500">
+                Earn XP, unlock achievements, and level up as you master trading skills and complete challenges.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="pt-6">
+          <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+            <div class="-mt-6">
+              <div>
+                <span class="inline-flex items-center justify-center p-3 bg-red-500 rounded-md shadow-lg">
+                  <i class="fas fa-shield-alt text-white text-xl"></i>
+                </span>
+              </div>
+              <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Risk Management</h3>
+              <p class="mt-5 text-base text-gray-500">
+                Learn proper position sizing, stop-loss strategies, and risk management techniques that protect your capital.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="pt-6">
+          <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+            <div class="-mt-6">
+              <div>
+                <span class="inline-flex items-center justify-center p-3 bg-yellow-500 rounded-md shadow-lg">
+                  <i class="fas fa-wallet text-white text-xl"></i>
+                </span>
+              </div>
+              <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Virtual Portfolio</h3>
+              <p class="mt-5 text-base text-gray-500">
+                Start with $10,000 virtual money and track your performance as you build and manage your portfolio.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="pt-6">
+          <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+            <div class="-mt-6">
+              <div>
+                <span class="inline-flex items-center justify-center p-3 bg-blue-500 rounded-md shadow-lg">
+                  <i class="fas fa-mobile-alt text-white text-xl"></i>
+                </span>
+              </div>
+              <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Mobile Friendly</h3>
+              <p class="mt-5 text-base text-gray-500">
+                Trade and learn on any device with our responsive design that works perfectly on mobile and desktop.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA Section -->
+<div class="bg-indigo-700">
+  <div class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
+    <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+      <span class="block">Ready to start learning?</span>
+      <span class="block">Create your free account today.</span>
+    </h2>
+    <p class="mt-4 text-lg leading-6 text-indigo-200">
+      Join thousands of learners who are mastering trading skills with our risk-free simulation platform.
+    </p>
+    <%= link_to signup_path, class: "mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 sm:w-auto transition duration-150" do %>
+      Get Started Free
+      <i class="fas fa-arrow-right ml-2"></i>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,186 @@
+<!-- Lesson Show Page -->
+<div class="max-w-4xl mx-auto">
+  <!-- Back Navigation -->
+  <div class="mb-6">
+    <%= link_to lessons_path, class: "inline-flex items-center text-indigo-600 hover:text-indigo-500 font-medium" do %>
+      <i class="fas fa-arrow-left mr-2"></i>
+      Back to All Lessons
+    <% end %>
+  </div>
+
+  <!-- Lesson Header -->
+  <div class="bg-white shadow rounded-lg mb-8">
+    <div class="px-6 py-8">
+      <div class="flex items-start justify-between">
+        <div class="flex-1">
+          <div class="flex items-center space-x-3 mb-4">
+            <% if @lesson.completed_by?(current_user) %>
+              <i class="fas fa-check-circle text-green-500 text-2xl"></i>
+            <% else %>
+              <i class="fas fa-play-circle text-indigo-500 text-2xl"></i>
+            <% end %>
+            <div>
+              <h1 class="text-3xl font-bold text-gray-900"><%= @lesson.title %></h1>
+              <p class="text-gray-600 mt-1"><%= @lesson.description %></p>
+            </div>
+          </div>
+
+          <!-- Lesson Meta Info -->
+          <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+            <span class="flex items-center bg-yellow-50 px-3 py-1 rounded-full">
+              <i class="fas fa-star text-yellow-500 mr-2"></i>
+              +<%= @lesson.xp_reward %> XP Reward
+            </span>
+            <span class="flex items-center bg-blue-50 px-3 py-1 rounded-full">
+              <i class="fas fa-clock text-blue-500 mr-2"></i>
+              ~<%= @lesson.estimated_duration %> minutes
+            </span>
+            <span class="flex items-center bg-purple-50 px-3 py-1 rounded-full">
+              <i class="fas fa-signal text-purple-500 mr-2"></i>
+              <%= (@lesson.difficulty || 'beginner').titleize %> Level
+            </span>
+            <span class="flex items-center bg-gray-50 px-3 py-1 rounded-full">
+              <i class="fas fa-tag text-gray-500 mr-2"></i>
+              <%= (@lesson.category || 'general').humanize %>
+            </span>
+          </div>
+
+          <% if @lesson.completed_by?(current_user) %>
+            <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+              <div class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                <span class="text-green-800 font-medium">
+                  Lesson completed! You earned <%= @lesson.xp_reward %> XP.
+                </span>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lesson Content -->
+  <div class="bg-white shadow rounded-lg mb-8">
+    <div class="px-6 py-8">
+      <div class="prose prose-lg max-w-none">
+        <%= simple_format(@lesson.content) %>
+      </div>
+
+      <!-- Learning Objectives -->
+      <% if @lesson.learning_objectives.present? %>
+        <div class="mt-8 p-6 bg-blue-50 border border-blue-200 rounded-lg">
+          <h3 class="text-lg font-semibold text-blue-900 mb-3">
+            <i class="fas fa-bullseye mr-2"></i>
+            Learning Objectives
+          </h3>
+          <div class="prose prose-blue">
+            <%= simple_format(@lesson.learning_objectives) %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Practice Trade Section -->
+  <% if @lesson.has_practice_trade? %>
+    <div class="bg-white shadow rounded-lg mb-8">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-900">
+          <i class="fas fa-chart-line text-green-600 mr-2"></i>
+          Practice What You've Learned
+        </h2>
+      </div>
+      <div class="px-6 py-6">
+        <p class="text-gray-600 mb-4">
+          Apply the concepts from this lesson by executing a practice trade. This will help reinforce your learning and earn additional XP.
+        </p>
+
+        <%= link_to trades_path(lesson_id: @lesson.id),
+            class: "inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-medium transition duration-150" do %>
+          <i class="fas fa-play mr-2"></i>
+          Start Practice Trade
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Action Buttons -->
+  <div class="flex items-center justify-between">
+    <!-- Previous/Next Lesson Navigation -->
+    <div class="flex space-x-4">
+      <% if @previous_lesson %>
+        <%= link_to lesson_path(@previous_lesson),
+            class: "inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 bg-white rounded-md hover:bg-gray-50 font-medium transition duration-150" do %>
+          <i class="fas fa-chevron-left mr-2"></i>
+          Previous Lesson
+        <% end %>
+      <% end %>
+
+      <% if @next_lesson %>
+        <%= link_to lesson_path(@next_lesson),
+            class: "inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 bg-white rounded-md hover:bg-gray-50 font-medium transition duration-150" do %>
+          Next Lesson
+          <i class="fas fa-chevron-right ml-2"></i>
+        <% end %>
+      <% end %>
+    </div>
+
+    <!-- Complete Lesson Button -->
+    <div>
+      <% unless @lesson.completed_by?(current_user) %>
+        <%= form_with url: complete_lesson_path(@lesson), method: :post, local: true do |form| %>
+          <%= form.submit "Mark as Complete",
+              class: "inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 font-medium transition duration-150",
+              data: { confirm: "Are you sure you want to mark this lesson as complete? You'll earn #{@lesson.xp_reward} XP." } %>
+        <% end %>
+      <% else %>
+        <div class="inline-flex items-center px-6 py-3 bg-green-100 text-green-800 rounded-md font-medium">
+          <i class="fas fa-check mr-2"></i>
+          Completed
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Related Lessons -->
+  <% if @related_lessons.any? %>
+    <div class="mt-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">Related Lessons</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <% @related_lessons.each do |lesson| %>
+          <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition duration-150">
+            <div class="flex items-start justify-between">
+              <div class="flex-1">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2"><%= lesson.title %></h3>
+                <p class="text-gray-600 text-sm mb-3"><%= truncate(lesson.description, length: 100) %></p>
+                <div class="flex items-center space-x-3 text-xs text-gray-500">
+                  <span>+<%= lesson.xp_reward %> XP</span>
+                  <span>~<%= lesson.estimated_duration %> min</span>
+                  <span><%= (lesson.difficulty || 'beginner').titleize %></span>
+                </div>
+              </div>
+              <div class="ml-4">
+                <% if lesson.completed_by?(current_user) %>
+                  <i class="fas fa-check-circle text-green-500"></i>
+                <% elsif lesson.available_for?(current_user) %>
+                  <i class="fas fa-play-circle text-indigo-500"></i>
+                <% else %>
+                  <i class="fas fa-lock text-gray-400"></i>
+                <% end %>
+              </div>
+            </div>
+            <div class="mt-4">
+              <% if lesson.available_for?(current_user) %>
+                <%= link_to "View Lesson", lesson_path(lesson),
+                    class: "text-indigo-600 hover:text-indigo-500 font-medium text-sm" %>
+              <% else %>
+                <span class="text-gray-400 text-sm">Requires Level <%= lesson.required_level %></span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

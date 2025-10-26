@@ -1,0 +1,128 @@
+<!-- Lessons Index Page -->
+<div class="max-w-4xl mx-auto">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Trading Lessons</h1>
+    <p class="mt-2 text-gray-600">Master the markets through interactive lessons. Each lesson unlocks as you progress and earns you valuable XP.</p>
+  </div>
+
+  <!-- Progress Overview -->
+  <div class="bg-white shadow rounded-lg p-6 mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-semibold text-gray-900">Your Learning Progress</h2>
+      <div class="text-sm text-gray-500">Level <%= current_user.level %></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="text-center">
+        <div class="text-2xl font-bold text-indigo-600"><%= current_user.completed_lessons_count %></div>
+        <div class="text-sm text-gray-500">Lessons Completed</div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl font-bold text-green-600"><%= current_user.experience_points %></div>
+        <div class="text-sm text-gray-500">Total XP Earned</div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl font-bold text-purple-600"><%= Lesson.available_for_level(current_user.level).count %></div>
+        <div class="text-sm text-gray-500">Lessons Available</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lessons by Category -->
+  <% lesson_categories = @lessons.group_by(&:category) %>
+  <% lesson_categories.each do |category, category_lessons| %>
+    <div class="bg-white shadow rounded-lg mb-8">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-900 capitalize"><%= (category || 'Uncategorized').humanize %></h2>
+        <p class="text-sm text-gray-600 mt-1">
+          <%= category_lessons.count %> lessons •
+          <%= category_lessons.sum(&:xp_reward) %> total XP
+        </p>
+      </div>
+
+      <div class="p-6">
+        <div class="space-y-4">
+          <% category_lessons.each do |lesson| %>
+            <% completed = lesson.completed_by?(current_user) %>
+            <% available = lesson.available_for?(current_user) %>
+
+            <div class="border border-gray-200 rounded-lg p-4 <%= 'bg-green-50 border-green-200' if completed %>">
+              <div class="flex items-center justify-between">
+                <div class="flex items-start space-x-4">
+                  <!-- Status Icon -->
+                  <div class="flex-shrink-0 mt-1">
+                    <% if completed %>
+                      <i class="fas fa-check-circle text-green-500 text-xl"></i>
+                    <% elsif available %>
+                      <i class="fas fa-play-circle text-indigo-500 text-xl"></i>
+                    <% else %>
+                      <i class="fas fa-lock text-gray-400 text-xl"></i>
+                    <% end %>
+                  </div>
+
+                  <!-- Lesson Info -->
+                  <div class="flex-1">
+                    <h3 class="text-lg font-semibold text-gray-900">
+                      <%= lesson.title %>
+                      <% unless available %>
+                        <span class="text-sm font-normal text-gray-500">(Requires Level <%= lesson.required_level %>)</span>
+                      <% end %>
+                    </h3>
+                    <p class="text-gray-600 mt-1"><%= lesson.description %></p>
+
+                    <!-- Lesson Meta -->
+                    <div class="flex items-center space-x-4 mt-2 text-sm text-gray-500">
+                      <span class="flex items-center">
+                        <i class="fas fa-star text-yellow-500 mr-1"></i>
+                        +<%= lesson.xp_reward %> XP
+                      </span>
+                      <span class="flex items-center">
+                        <i class="fas fa-clock mr-1"></i>
+                        ~<%= lesson.estimated_duration %> min
+                      </span>
+                      <span class="flex items-center">
+                        <i class="fas fa-signal mr-1"></i>
+                        <%= (lesson.difficulty || 'beginner').titleize %>
+                      </span>
+                    </div>
+
+                    <% if completed %>
+                      <div class="mt-2 text-sm text-green-600 font-medium">
+                        <i class="fas fa-check mr-1"></i>
+                        Completed • XP earned
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="flex-shrink-0">
+                  <% if available %>
+                    <%= link_to lesson_path(lesson),
+                        class: "#{completed ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'bg-indigo-600 text-white hover:bg-indigo-700'} px-4 py-2 rounded-md text-sm font-medium transition duration-150" do %>
+                      <%= completed ? 'Review' : 'Start Lesson' %>
+                    <% end %>
+                  <% else %>
+                    <div class="px-4 py-2 bg-gray-100 text-gray-500 rounded-md text-sm font-medium">
+                      Locked
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- No Lessons Available -->
+  <% if @lessons.empty? %>
+    <div class="bg-white shadow rounded-lg p-12 text-center">
+      <i class="fas fa-graduation-cap text-gray-400 text-4xl mb-4"></i>
+      <h3 class="text-lg font-medium text-gray-900 mb-2">No lessons available yet</h3>
+      <p class="text-gray-500">Lessons will be added as the platform grows. Check back soon!</p>
+    </div>
+  <% end %>
+</div>

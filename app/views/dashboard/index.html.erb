@@ -1,0 +1,350 @@
+<!-- Dashboard Header -->
+<div class="mb-8">
+  <h1 class="text-3xl font-bold text-gray-900">Trading Dashboard</h1>
+  <p class="mt-2 text-gray-600">Welcome back! Here's your trading progress and opportunities.</p>
+</div>
+
+<!-- Key Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <!-- Portfolio Value -->
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <i class="fas fa-wallet text-green-500 text-2xl"></i>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Portfolio Value</dt>
+            <dd class="text-lg font-semibold text-gray-900">
+              $<%= number_with_delimiter(@portfolio&.total_value || 0, precision: 2) %>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="mt-3">
+        <div class="flex items-center text-sm">
+          <% if @portfolio&.total_return && @portfolio.total_return != 0 %>
+            <span class="<%= @portfolio.total_return > 0 ? 'text-green-600' : 'text-red-600' %> font-medium">
+              <%= @portfolio.total_return > 0 ? '+' : '' %><%= @portfolio.total_return %>%
+            </span>
+            <span class="text-gray-500 ml-1">return</span>
+          <% else %>
+            <span class="text-gray-500">No trades yet</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Experience Points -->
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <i class="fas fa-star text-indigo-500 text-2xl"></i>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Experience Points</dt>
+            <dd class="text-lg font-semibold text-gray-900"><%= @user.experience_points %> XP</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="mt-3">
+        <div class="flex items-center">
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div class="bg-indigo-600 h-2 rounded-full" style="width: <%= @user.progress_to_next_level %>%"></div>
+          </div>
+          <span class="ml-2 text-sm text-gray-500"><%= @user.progress_to_next_level.round(1) %>%</span>
+        </div>
+        <p class="text-xs text-gray-500 mt-1">Level <%= @user.level %> → Level <%= @user.level + 1 %></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Win Rate -->
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <i class="fas fa-chart-line text-purple-500 text-2xl"></i>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Win Rate</dt>
+            <dd class="text-lg font-semibold text-gray-900"><%= @user.win_rate %>%</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="mt-3">
+        <div class="flex items-center text-sm text-gray-500">
+          <span><%= @user.profitable_trades %>/<%= @user.total_trades %> trades</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Current Streak -->
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <i class="fas fa-fire text-orange-500 text-2xl"></i>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Current Streak</dt>
+            <dd class="text-lg font-semibold text-gray-900"><%= @user.current_streak %></dd>
+          </dl>
+        </div>
+      </div>
+      <div class="mt-3">
+        <div class="text-sm text-gray-500">
+          <% if @user.current_streak > 0 %>
+            <span class="text-green-600 font-medium">🔥 On fire!</span>
+          <% else %>
+            <span>No active streak</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  <!-- Left Column - Lessons & Actions -->
+  <div class="lg:col-span-2 space-y-8">
+    <!-- Quick Actions -->
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <%= link_to lessons_path, class: "flex items-center p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition duration-150" do %>
+          <div class="flex-shrink-0">
+            <i class="fas fa-book text-blue-600 text-xl"></i>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-sm font-semibold text-blue-900">Continue Learning</h3>
+            <p class="text-sm text-blue-700">Complete lessons to earn XP</p>
+          </div>
+        <% end %>
+
+        <%= link_to trades_path, class: "flex items-center p-4 bg-green-50 hover:bg-green-100 rounded-lg transition duration-150" do %>
+          <div class="flex-shrink-0">
+            <i class="fas fa-chart-line text-green-600 text-xl"></i>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-sm font-semibold text-green-900">Practice Trading</h3>
+            <p class="text-sm text-green-700">Execute trades with virtual money</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Available Lessons -->
+    <div class="bg-white shadow rounded-lg">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Continue Your Learning</h2>
+      </div>
+      <div class="p-6">
+        <% if @available_lessons.any? %>
+          <div class="space-y-4">
+            <% @available_lessons.each do |lesson| %>
+              <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <% if lesson.completed_by?(@user) %>
+                      <i class="fas fa-check-circle text-green-500 text-xl"></i>
+                    <% else %>
+                      <i class="fas fa-play-circle text-indigo-500 text-xl"></i>
+                    <% end %>
+                  </div>
+                  <div class="ml-4">
+                    <h3 class="text-sm font-semibold text-gray-900"><%= lesson.title %></h3>
+                    <p class="text-sm text-gray-500">+<%= lesson.xp_reward %> XP</p>
+                  </div>
+                </div>
+                <div class="flex-shrink-0">
+                  <%= link_to lesson_path(lesson), class: "#{lesson.completed_by?(@user) ? 'bg-gray-300 text-gray-700' : 'bg-indigo-600 text-white hover:bg-indigo-700'} px-4 py-2 rounded-md text-sm font-medium transition duration-150" do %>
+                    <%= lesson.completed_by?(@user) ? 'Review' : 'Start' %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <div class="mt-6 text-center">
+            <%= link_to "View All Lessons", lessons_path, class: "text-indigo-600 hover:text-indigo-500 font-medium" %>
+          </div>
+        <% else %>
+          <div class="text-center py-8">
+            <i class="fas fa-graduation-cap text-gray-400 text-3xl mb-4"></i>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Great job!</h3>
+            <p class="text-gray-500">You've completed all available lessons for your current level.</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Recent Trades -->
+    <div class="bg-white shadow rounded-lg">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Recent Trades</h2>
+      </div>
+      <div class="p-6">
+        <% if @recent_trades.any? %>
+          <div class="space-y-4">
+            <% @recent_trades.each do |trade| %>
+              <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <% if trade.status == 'closed' %>
+                      <i class="fas fa-circle text-<%= trade.profitable? ? 'green' : 'red' %>-500"></i>
+                    <% else %>
+                      <i class="fas fa-circle text-yellow-500"></i>
+                    <% end %>
+                  </div>
+                  <div class="ml-4">
+                    <div class="flex items-center space-x-2">
+                      <h3 class="text-sm font-semibold text-gray-900"><%= trade.symbol %></h3>
+                      <span class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded"><%= trade.status.titleize %></span>
+                    </div>
+                    <p class="text-sm text-gray-500">
+                      <%= trade.quantity %> shares @ $<%= trade.entry_price %>
+                    </p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <% if trade.status == 'closed' && trade.pnl %>
+                    <div class="text-sm font-semibold <%= trade.profitable? ? 'text-green-600' : 'text-red-600' %>">
+                      <%= trade.profitable? ? '+' : '' %>$<%= number_with_delimiter(trade.pnl, precision: 2) %>
+                    </div>
+                    <div class="text-xs text-gray-500">
+                      <%= trade.percentage_return %>%
+                    </div>
+                  <% else %>
+                    <div class="text-sm text-gray-500">Open</div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <div class="mt-6 text-center">
+            <%= link_to "View All Trades", trades_path, class: "text-indigo-600 hover:text-indigo-500 font-medium" %>
+          </div>
+        <% else %>
+          <div class="text-center py-8">
+            <i class="fas fa-chart-area text-gray-400 text-3xl mb-4"></i>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">No trades yet</h3>
+            <p class="text-gray-500 mb-4">Start your trading journey by completing a lesson or making your first trade.</p>
+            <%= link_to "Start Trading", trades_path, class: "bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-150" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column - Achievements & Progress -->
+  <div class="space-y-8">
+    <!-- Recent Badges -->
+    <div class="bg-white shadow rounded-lg">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Recent Achievements</h2>
+      </div>
+      <div class="p-6">
+        <% if @earned_badges.any? %>
+          <div class="space-y-3">
+            <% @earned_badges.each do |badge| %>
+              <div class="flex items-center p-3 bg-yellow-50 rounded-lg">
+                <div class="flex-shrink-0">
+                  <i class="<%= badge.icon_class %> text-yellow-600 text-lg"></i>
+                </div>
+                <div class="ml-3">
+                  <h3 class="text-sm font-semibold text-yellow-900"><%= badge.name %></h3>
+                  <p class="text-xs text-yellow-700"><%= badge.description %></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <div class="mt-4 text-center">
+            <%= link_to "View All Badges", badges_path, class: "text-indigo-600 hover:text-indigo-500 font-medium text-sm" %>
+          </div>
+        <% else %>
+          <div class="text-center py-6">
+            <i class="fas fa-medal text-gray-400 text-2xl mb-3"></i>
+            <h3 class="text-sm font-medium text-gray-900 mb-1">No badges yet</h3>
+            <p class="text-xs text-gray-500">Complete lessons and trades to earn achievements!</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Next Badges to Unlock -->
+    <div class="bg-white shadow rounded-lg">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Next Goals</h2>
+      </div>
+      <div class="p-6">
+        <% if @next_badges.any? %>
+          <div class="space-y-4">
+            <% @next_badges.limit(3).each do |badge| %>
+              <% progress = @badge_service.progress_towards_badge(badge) %>
+              <div class="border border-gray-200 rounded-lg p-4">
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center">
+                    <i class="<%= badge.icon_class %> text-gray-400 text-lg mr-3"></i>
+                    <h3 class="text-sm font-semibold text-gray-900"><%= badge.name %></h3>
+                  </div>
+                </div>
+                <p class="text-xs text-gray-600 mb-3"><%= badge.description %></p>
+                <div class="flex items-center">
+                  <div class="w-full bg-gray-200 rounded-full h-2 mr-3">
+                    <div class="bg-indigo-600 h-2 rounded-full" style="width: <%= progress[:percentage] %>%"></div>
+                  </div>
+                  <span class="text-xs text-gray-500 flex-shrink-0">
+                    <%= progress[:current] %>/<%= progress[:required] %>
+                  </span>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-center py-6">
+            <i class="fas fa-star text-gray-400 text-2xl mb-3"></i>
+            <h3 class="text-sm font-medium text-gray-900 mb-1">All caught up!</h3>
+            <p class="text-xs text-gray-500">Keep trading to unlock more achievements.</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="bg-white shadow rounded-lg">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Quick Stats</h2>
+      </div>
+      <div class="p-6 space-y-4">
+        <div class="flex justify-between">
+          <span class="text-sm text-gray-600">Lessons Completed</span>
+          <span class="text-sm font-semibold text-gray-900">
+            <%= Lesson.joins(:trades).where(trades: { user: @user }).distinct.count %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-gray-600">Total Trades</span>
+          <span class="text-sm font-semibold text-gray-900"><%= @user.total_trades %></span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-gray-600">Badges Earned</span>
+          <span class="text-sm font-semibold text-gray-900"><%= @user.badges.count %></span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-gray-600">Member Since</span>
+          <span class="text-sm font-semibold text-gray-900">
+            <%= @user.created_at.strftime("%b %Y") %>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
