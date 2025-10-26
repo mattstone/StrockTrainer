@@ -1,4 +1,4 @@
-# README
+# Stock Trainer
 
 Stock Trainer.
 
