@@ -324,7 +324,7 @@ GEM
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
     ostruct (0.6.3)
-    pagy (8.6.3)
+    pagy (9.4.0)
     parallel (1.27.0)
     parser (3.3.9.0)
       ast (~> 2.4.1)
@@ -582,7 +582,7 @@ DEPENDENCIES
   kamal
   letter_opener_web
   oj (~> 3.16)
-  pagy (~> 8.6)
+  pagy (~> 9.4)
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.3)

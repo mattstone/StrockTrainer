@@ -31,7 +31,7 @@ gem "image_processing", "~> 1.12"
 gem "sidekiq", "~> 7.2"
 
 # Pagination
-gem "pagy", "~> 8.6"
+gem "pagy", "~> 9.4"
 
 # CSS Framework
 gem "tailwindcss-rails", "~> 2.7"
