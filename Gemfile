@@ -72,7 +72,7 @@ group :development, :test do
   gem "faker", "~> 3.4"
 
   # API testing and mocking
-  gem "webmock", "~> 3.23"
+  gem "webmock", "~> 3.26"
   gem "vcr", "~> 6.3"
 
   # Test coverage
