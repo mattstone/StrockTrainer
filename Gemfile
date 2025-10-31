@@ -28,7 +28,7 @@ gem "groupdate", "~> 6.4"
 gem "image_processing", "~> 1.12"
 
 # Background jobs for data fetching
-gem "sidekiq", "~> 7.2"
+gem "sidekiq", "~> 8.0"
 
 # Pagination
 gem "pagy", "~> 8.6"
